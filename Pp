@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Number Predictor</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+    .prediction {
+      font-size: 4em;
+      margin: 20px 0;
+      letter-spacing: 10px;
+      animation: pop 0.4s ease;
+    }
+    button {
+      padding: 12px 30px;
+      font-size: 1.1em;
+      background: #00d4ff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #002;
+      margin: 10px;
+    }
+    button:hover {
+      background: #00b2cc;
+    }
+    .history {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .history h3 {
+      margin-bottom: 10px;
+    }
+    .history ul {
+      list-style: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .history li {
+      background: rgba(0, 0, 0, 0.2);
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Modern_UI_icon.svg/1024px-Modern_UI_icon.svg.png" class="logo" alt="logo">
+  <h1>3D Number Predictor</h1>
+
+  <div class="prediction" id="result">---</div>
+
+  <button onclick="predict()">Predict</button>
+  <div class="controls">
+    <button onclick="toggleMusic()">Toggle Music</button>
+  </div>
+
+  <div class="history">
+    <h3>Prediction History</h3>
+    <ul id="historyList"></ul>
+  </div>
+
+  <!-- Sound Effects -->
+  <audio id="clickSound" src="https://www.soundjay.com/button/sounds/button-29.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" loop autoplay></audio>
+
+  <script>
+    const clickSound = document.getElementById("clickSound");
+    const bgMusic = document.getElementById("bgMusic");
+    let musicPlaying = true;
+
+    function predict() {
+      clickSound.play();
+
+      const a = Math.floor(Math.random() * 10);
+      const b = Math.floor(Math.random() * 10);
+      const c = Math.floor(Math.random() * 10);
+      const prediction = `${a}${b}${c}`;
+
+      const result = document.getElementById("result");
+      result.innerText = prediction;
+      result.style.animation = 'none';
+      void result.offsetWidth;
+      result.style.animation = 'pop 0.4s ease';
+
+      const now = new Date().toLocaleString();
+      const historyItem = document.createElement("li");
+      historyItem.textContent = `${prediction} - ${now}`;
+
+      document.getElementById("historyList").prepend(historyItem);
+    }
+
+    function toggleMusic() {
+      if (musicPlaying) {
+        bgMusic.pause();
+      } else {
+        bgMusic.play();
+      }
+      musicPlaying = !musicPlaying;
+    }
+  </script>
+
+</body>
+</html>
